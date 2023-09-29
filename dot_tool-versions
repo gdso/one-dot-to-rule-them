@@ -1,0 +1,26 @@
+nodejs 16.13.2
+ripgrep 13.0.0
+postgres 12.5
+python 3.10.1
+
+# erlang 24.2
+# elixir v1.13.2-otp-24
+erlang 25.2.3
+elixir v1.14.3-otp-25
+
+neovim stable
+
+# tmux 3.2a
+
+# lua language server for nvim's lua config:
+lua-language-server 3.6.23
+
+# glow
+# asdf plugin add glow https://github.com/chessmango/asdf-glow.git
+glow 1.5.1
+
+
+# gopass
+# asdf plugin add gopass https://github.com/trallnag/asdf-gopass.git
+gopass 1.15.8
+
