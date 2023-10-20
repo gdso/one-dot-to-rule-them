@@ -117,6 +117,8 @@ Plug 'ekalinin/Dockerfile.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
+Plug 'sbdchd/neoformat'
+
 " lua << EOF
 " require('glow').setup()
 " EOF
@@ -240,10 +242,10 @@ tnoremap   <silent>   <leader>t   <C-\><C-n>:FloatermToggle<CR>
 " tnoremap   <silent>   <leader>th   <C-\><C-n>:FloatermToggle<CR>
 
 " nnoremap   <silent>   <leader>tc    :FloatermNew<CR>
-tnoremap   <silent>   <leader>c    <C-\><C-n>:FloatermNew<CR>
+tnoremap   <silent>   <leader>n    <C-\><C-n>:FloatermNew<CR>
 
-" nnoremap   <silent>   <leader>s    :Floaterms<CR>
-tnoremap   <silent>   <leader>s    <C-\><C-n>:Floaterms<CR>
+nnoremap   <silent>   <leader>st    :Floaterms<CR>
+tnoremap   <silent>   <leader>st    <C-\><C-n>:Floaterms<CR>
 
 " nnoremap   <leader>tr    :FloatermUpdate --title=
 tnoremap   <leader>r    <C-\><C-n>:FloatermUpdate --title=
@@ -253,10 +255,11 @@ tnoremap   <leader>l    <C-\><C-n>:FloatermUpdate --position=topright<CR>
 tnoremap   <leader>.    <C-\><C-n>:FloatermUpdate --position=center<CR>
 
 " nnoremap   <silent>   <leader>p    :FloatermPrev<CR>
-tnoremap   <silent>   <leader>p    <C-\><C-n>:FloatermPrev<CR>
+tnoremap   <silent>   <leader>[    <C-\><C-n>:FloatermPrev<CR>
 
 " nnoremap   <silent>   <leader>n    :FloatermNext<CR>
-tnoremap   <silent>   <leader>n    <C-\><C-n>:FloatermNext<CR>
+" tnoremap   <silent>   <leader>n    <C-\><C-n>:FloatermNext<CR>
+tnoremap   <silent>   <leader>]    <C-\><C-n>:FloatermPrev<CR>
 
 " tnoremap   <silent>   <leader>tg   <C-\><C-n>:FloatermToggle<CR>
 
