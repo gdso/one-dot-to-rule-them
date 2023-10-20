@@ -301,7 +301,7 @@ let g:indent_guides_color_change_percent = 2
 :command DiffGitOff only " Equivalent to <C-w><C-o>
 
 
-# Neoformat
+" Neoformat
 let g:neoformat_try_node_exe = 1
 
 
