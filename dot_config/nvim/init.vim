@@ -299,3 +299,9 @@ let g:indent_guides_color_change_percent = 2
 :command DiffOff windo diffoff
 :command DiffGit Gvdiffsplit
 :command DiffGitOff only " Equivalent to <C-w><C-o>
+
+
+# Neoformat
+let g:neoformat_try_node_exe = 1
+
+
