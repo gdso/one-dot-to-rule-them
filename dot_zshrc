@@ -1,0 +1,17 @@
+. $HOME/.asdf/asdf.sh
+
+export CLICOLOR=1
+# eval "$(pyenv init -)"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+export PATH=$PATH:~/src/dev-tools/bin/
+export PATH=$PATH:~/src/jetporch/target/release/
+
+# For git autocomplete support, as suggested here: 
+# https://stackoverflow.com/questions/73393101/how-to-enable-git-autocomplete-in-macos
+autoload -Uz compinit && compinit
