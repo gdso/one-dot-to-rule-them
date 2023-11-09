@@ -80,6 +80,19 @@ cmp.setup.cmdline(':', {
 
 -- <nvim_lsp_config>
 
+
+-- NOTE the following LSPs need to be installed via NPM, etc:
+-- For lua-language-server, see docs at: https://github.com/bellini666/asdf-lua-language-server
+--
+-- For typescript and tsserver
+-- $ npm install -g typescript-language-server typescript
+--
+-- For bash-language-server:
+-- $ npm i -g bash-language-server
+--
+-- For yaml-language-server:
+-- $ yarn global add yaml-language-server # NOTE I ran `npm install -g yaml-language-server` because I don't have yarn installed
+
 -- local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -89,7 +102,6 @@ require 'lspconfig'.elixirls.setup {
   capabilities = capabilities
   -- ...
 }
-
 
 require 'lspconfig'.flow.setup {}
 
@@ -128,6 +140,14 @@ require 'lspconfig'.tailwindcss.setup {
       elixir = "html",
       eelixir = "html-eex",
       eruby = "erb"
+    }
+  }
+}
+
+require'lspconfig'.yamlls.setup{
+  settings = {
+    yaml = {
+      validate = false
     }
   }
 }
@@ -512,3 +532,5 @@ vim.cmd("colorscheme kanagawa")
 -- <markdown_preview_plugin>
 require('glow').setup()
 -- </markdown_preview_plugin>
+
+

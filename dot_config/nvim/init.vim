@@ -119,6 +119,8 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 Plug 'sbdchd/neoformat'
 
+Plug 'sheerun/vim-polyglot'
+
 " lua << EOF
 " require('glow').setup()
 " EOF

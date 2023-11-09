@@ -34,4 +34,18 @@ My personal dotfile backup, powered by `chezmoi`
 ## Using `chezmoi`
 
 
-    $ cd ~
+### Add a file into chezmoi's management
+
+    $ chezmoi add [path_to_file]
+
+
+### Edit a configuration file
+
+    $ chezmoi edit [path_to_file]
+
+### Re-add an edited file
+
+If you edit a configuration file without `chezmoi edit`, you can _re-add_ it:
+
+
+    $ chezmoi re-add [path_to_file]
