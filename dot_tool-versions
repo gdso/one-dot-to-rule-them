@@ -24,3 +24,11 @@ glow 1.5.1
 # asdf plugin add gopass https://github.com/trallnag/asdf-gopass.git
 gopass 1.15.8
 
+# NOTE bashls depedencies:
+#  - shellcheck
+#  - explainshell
+# NOTE bashls itself is installed via npm.
+#
+# bashls / shellcheck dependency
+# asdf plugin add shellcheck https://github.com/luizm/asdf-shellcheck.git
+shellcheck 0.9.0

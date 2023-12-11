@@ -51,6 +51,9 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
+" LSP package manager for nvim
+Plug 'williamboman/mason.nvim'
+
 " <code_formatter>
 Plug 'sbdchd/neoformat'
 " </code_formatter>
@@ -61,6 +64,7 @@ Plug 'simrat39/symbols-outline.nvim'
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'
+
 
 " Comment plugins
 Plug 'tomtom/tcomment_vim'
@@ -198,6 +202,7 @@ set expandtab
 set tabstop=2
 set foldmethod=indent   
 set foldlevel=2
+set foldcolumn=1
 
 " All language servers seem to need this, and so does ToggleTerm:
 set hidden
@@ -229,6 +234,10 @@ nnoremap M D
 " Personal opinion, but p in visual mode should NEVER yank the selection
 " that will be overwritten by the paste/put:
 vnoremap p P
+
+
+vnoremap gch :TCommentAs html<CR>
+noremap gch :TCommentAs html<CR>
 
 " <vim_floatterm>
 " noremap   <silent>   <leader>z   :FloatermToggle<CR>
@@ -307,3 +316,5 @@ let g:indent_guides_color_change_percent = 2
 let g:neoformat_try_node_exe = 1
 
 
+" LSPs that need to be installed:
+" 

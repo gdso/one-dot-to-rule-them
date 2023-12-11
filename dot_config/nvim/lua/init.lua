@@ -96,10 +96,18 @@ cmp.setup.cmdline(':', {
 -- local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+
+require("mason").setup()
+
+local util = require 'lspconfig.util'
+
 require 'lspconfig'.elixirls.setup {
   -- Unix
   cmd = { "elixir-ls" },
-  capabilities = capabilities
+  capabilities = capabilities,
+  root_dir = function(fname)
+    return util.root_pattern 'mix.exs'(fname) or util.find_git_ancestor(fname)
+  end,
   -- ...
 }
 
@@ -151,6 +159,8 @@ require'lspconfig'.yamlls.setup{
     }
   }
 }
+
+require'lspconfig'.bashls.setup{}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

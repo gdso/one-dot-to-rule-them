@@ -47,5 +47,4 @@ My personal dotfile backup, powered by `chezmoi`
 
 If you edit a configuration file without `chezmoi edit`, you can _re-add_ it:
 
-
     $ chezmoi re-add [path_to_file]
