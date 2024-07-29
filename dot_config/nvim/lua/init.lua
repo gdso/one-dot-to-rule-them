@@ -1,3 +1,35 @@
+-- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- if not vim.loop.fs_stat(lazypath) then
+--   vim.fn.system({
+--     "git",
+--     "clone",
+--     "--filter=blob:none",
+--     "https://github.com/folke/lazy.nvim.git",
+--     "--branch=stable", -- latest stable release
+--     lazypath,
+--   })
+-- end
+-- vim.opt.rtp:prepend(lazypath)
+--
+-- require("lazy").setup({
+--   {
+--     'nvim-telescope/telescope.nvim',
+--     tag = '0.1.5',
+--     -- or
+--     -- , branch = '0.1.x',
+--     dependencies = { 'nvim-lua/plenary.nvim' }
+--   },
+--   {
+--     "ryanmsnyder/toggleterm-manager.nvim",
+--     dependencies = {
+--       "akinsho/nvim-toggleterm.lua",
+--       "nvim-telescope/telescope.nvim",
+--       "nvim-lua/plenary.nvim", -- only needed because it's a dependency of telescope
+--     },
+--     config = true,
+--   }
+-- })
+
 -- <nvim_cmp_setup>
 -- Set up nvim-cmp.
 local cmp = require 'cmp'
@@ -106,7 +138,7 @@ require 'lspconfig'.elixirls.setup {
   cmd = { "elixir-ls" },
   capabilities = capabilities,
   root_dir = function(fname)
-    return util.root_pattern 'mix.exs'(fname) or util.find_git_ancestor(fname)
+    return util.root_pattern 'mix.exs' (fname) or util.find_git_ancestor(fname)
   end,
   -- ...
 }
@@ -152,7 +184,7 @@ require 'lspconfig'.tailwindcss.setup {
   }
 }
 
-require'lspconfig'.yamlls.setup{
+require 'lspconfig'.yamlls.setup {
   settings = {
     yaml = {
       validate = false
@@ -160,7 +192,9 @@ require'lspconfig'.yamlls.setup{
   }
 }
 
-require'lspconfig'.bashls.setup{}
+require 'lspconfig'.bashls.setup {}
+
+require 'lspconfig'.marksman.setup {}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -191,14 +225,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>wl', function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<spacspacee>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<space>rw', ":%s/<c-r><c-w>/", opts)
+    vim.keymap.set('n', '<space>qr', ":cfdo %s/<c-r><c-w>/", {})
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
     -- See telescope_setup's builtin.lsp_references	 keymap
     -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
+    -- vim.keymap.set('n', '<space>f', function()
+    --   vim.lsp.buf.format { async = true }
+    -- end, opts)
   end,
 })
 
@@ -256,40 +292,69 @@ vim.opt.termguicolors = true
 -- </nvim_tree_setup>
 
 -- <toggleterm>
--- require("toggleterm").setup({
---   -- size = function(term)
---   --   if term.direction == "horizontal" then
---   --     return 15
---   --   elseif term.direction == "vertical" then
---   --     return vim.o.columns * 0.4
---   --   else
---   --     20
---   --   end
---   -- end,
---   size = 100,
---   -- open_mapping = [[<C-\>]],
---   open_mapping = "<Leader>9",
---   direction = "vertical",
---   -- direction = "float",
--- })
---
--- function _G.set_terminal_keymaps()
---   local opts = {buffer = 0}
---   -- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
---   -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
---   vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
---   vim.keymap.set('t', '<C-w>.', [[<C-\><C-n>]], opts)
---   vim.keymap.set('t', '<C-M-n>', [[<C-\><C-n>]], opts)
---   -- vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
---   -- vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
---   -- vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
---   -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
--- end
---
--- -- if you only want these mappings for toggle term use term://*toggleterm#* instead
--- vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
---
--- -- </toggleterm>
+require("toggleterm").setup({
+  size = 100,
+  -- size can be a number or function which is passed the current terminal
+  -- size = 100 | function(term)
+  --   if term.direction == "horizontal" then
+  --     return 15
+  --   elseif term.direction == "vertical" then
+  --     return vim.o.columns * 0.4
+  --   end
+  -- end,
+  -- open_mapping = [[<C-\>]],
+  open_mapping = "<Leader>t",
+  direction = "vertical",
+  -- direction = "float",
+})
+
+function _G.set_terminal_keymaps()
+  local opts = { buffer = 0 }
+  -- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+  -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-w>.', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', '<C-M-n>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-W-n>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('<leader', '<C-M-n>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('n', '<leader>s', ":Telescope toggleterm_manager<CR>", opts)
+  -- vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  -- vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  -- vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+-- </toggleterm>
+
+-- <toggleterm_manager>
+local toggleterm_manager = require("toggleterm-manager")
+local actions = toggleterm_manager.actions
+toggleterm_manager.setup({
+  mappings = {
+    i = {
+      ["<CR>"] = { action = actions.toggle_term, exit_on_action = true }, -- toggles terminal open/closed
+      -- ["<CR>"] = { action = actions.create_and_name_term, exit_on_action = true },
+      -- ["<C-d>"] = { action = actions.delete_term, exit_on_action = false },
+      -- ["<C-c>"] = { action = actions.create_and_name_term, exit_on_action = true },
+      ["<m-c>"] = { action = actions.create_and_name_term, exit_on_action = true },
+    },
+    n = {
+      ["<CR>"] = { action = actions.toggle_term, exit_on_action = true }, -- toggles terminal open/closed
+      ["t"] = { action = actions.toggle_term, exit_on_action = false },   -- toggles terminal open/closed
+      -- ["<CR>"] = { action = actions.create_and_name_term, exit_on_action = true },
+      ["x"] = { action = actions.delete_term, exit_on_action = false },
+      -- ["c"] = { action = actions.create_term, exit_on_action = false }, -- creates a new terminal buffer,
+      ["c"] = { action = actions.create_and_name_term, exit_on_action = true },
+      ["r"] = { action = actions.rename_term, exit_on_action = false },
+    },
+  },
+})
+
+-- </toggleterm_manager>
 
 -- <lualine>
 -- Bubbles config for lualine
@@ -369,15 +434,29 @@ require("symbols-outline").setup()
 -- </symbols_outline_setup>
 
 -- <telescope_setup>
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 vim.keymap.set('n', '<leader>ss', builtin.live_grep, {})
+
+-- mnemonic: \sw => search word
 vim.keymap.set('n', '<leader>sw', builtin.grep_string, {})
-vim.keymap.set('n', '<leader>sy', ":Telescope grep_string search=<c-r>0<cr>", {} )
-vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find, {})
+
+vim.keymap.set('n', '<leader>sy', ":Telescope grep_string search=<c-r>0<cr>", {})
+-- NOTE I'm chooing not to use builtin.current_buffer_fuzzy_find because it 
+-- does not use ripgrep, doesn't support exact match or regex in general 
+-- it's fuzzy which pollutes results
+-- vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find, {})
+-- mnemonic: \sb => search bufferS
+vim.keymap.set('n', '<leader>sb', function()
+  builtin.live_grep({ grep_open_files = true })
+end
+, {})
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>sq', builtin.quickfixhistory, {})
+vim.keymap.set('n', '<leader>st', ":Telescope toggleterm_manager<CR>", {})
+vim.keymap.set('t', '<leader>st', '<C-\\><C-n>:Telescope toggleterm_manager<CR>', {})
 vim.keymap.set('n', '<leader>qq', builtin.quickfix, {})
 vim.keymap.set('n', '<leader>qh', builtin.quickfixhistory, {})
 vim.keymap.set('n', '<leader>rw', ":%s/<c-r><c-w>/", {})
@@ -404,11 +483,20 @@ require("telescope").setup {
       }
     },
     dynamic_preview_title = true,
+    mappings = {
+      n = {
+        ["q"] = actions.send_to_qflist + actions.open_qflist,
+        ["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
+      }
+    }
   },
   pickers = {
     buffers = {
       -- sorting_strategy = "descending",
       mappings = {
+        n = {
+          ["x"] = actions.delete_buffer + actions.move_to_top,
+        },
         i = {
           ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
         }
@@ -424,6 +512,9 @@ require("telescope").setup {
           exclude = { -1, -2 }
         }
       }
+    },
+    colorscheme = {
+      enable_preview = true
     }
   },
   extensions = {
@@ -437,6 +528,8 @@ require("telescope").setup {
 }
 -- </telescope_setup>
 --
+
+
 
 -- <telescope_file_browser>
 vim.api.nvim_set_keymap(
@@ -543,4 +636,94 @@ vim.cmd("colorscheme kanagawa")
 require('glow').setup()
 -- </markdown_preview_plugin>
 
+-- -- <formatter.nvim>
+-- -- Utilities for creating configurations
+-- local util = require "formatter.util"
+--
+-- -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
+-- require("formatter").setup {
+--   -- Enable or disable logging
+--   logging = true,
+--   -- Set the log level
+--   log_level = vim.log.levels.WARN,
+--   -- All formatter configurations are opt-in
+--   filetype = {
+--     -- Formatter configurations for filetype "lua" go here
+--     -- and will be executed in order
+--     lua = {
+--       -- "formatter.filetypes.lua" defines default configurations for the
+--       -- "lua" filetype
+--       require("formatter.filetypes.lua").stylua,
+--
+--       -- You can also define your own configuration
+--       function()
+--         -- Supports conditional formatting
+--         if util.get_current_buffer_file_name() == "special.lua" then
+--           return nil
+--         end
+--
+--         -- Full specification of configurations is down below and in Vim help
+--         -- files
+--         return {
+--           exe = "stylua",
+--           args = {
+--             "--search-parent-directories",
+--             "--stdin-filepath",
+--             util.escape_path(util.get_current_buffer_file_path()),
+--             "--",
+--             "-",
+--           },
+--           stdin = true,
+--         }
+--       end
+--     },
+--
+--     javascript = { require("formatter.filetypes.javascript").prettier },
+--     javascriptreact = { require("formatter.filetypes.javascriptreact").prettier },
+--     typescript = { require("formatter.filetypes.typescript").prettier },
+--     typescriptreact = { require("formatter.filetypes.typescriptreact").prettier },
+--
+--     -- Use the special "*" filetype for defining formatter configurations on
+--     -- any filetype
+--     ["*"] = {
+--       -- "formatter.filetypes.any" defines default configurations for any
+--       -- filetype
+--       require("formatter.filetypes.any").remove_trailing_whitespace
+--     }
+--   }
+-- }
+-- -- </formatter.nvim>
 
+-- <conform.nvim> code formatter, augments LSP formatter and replaces formatter.nvim
+require("conform").setup({
+  formatters_by_ft = {
+    -- Use a sub-list to run only the first available formatter
+    javascript = { { "prettier" } },
+    javascriptreact = { { "prettier" } },
+    typescript = { 'prettier' },
+    typescriptreact = { 'prettier' },
+    json = { 'prettier' },
+    jsonc = { 'prettier' }
+  },
+  -- format_on_save = {
+  --   -- These options will be passed to conform.format()
+  --   timeout_ms = 500,
+  --   lsp_fallback = true,
+  -- },
+})
+
+vim.api.nvim_create_user_command("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  require("conform").format({ async = true, lsp_fallback = true, range = range })
+end, { range = true })
+
+vim.keymap.set('n', '<space>f', ':Format<CR>', {})
+
+-- </conform.nvim>

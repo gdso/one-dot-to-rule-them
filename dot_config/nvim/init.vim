@@ -37,13 +37,26 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 " or                                , { 'branch': '0.1.x' }
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 
 " <LSP_plugins>
+"
+" LSP package manager for nvim
+Plug 'williamboman/mason.nvim'
+
+" NOTE mason.nvim recommends we install along with neovim/nvim-lspconfig:
+" Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
+" mason.nvim also recommends formatter.nvim along with mason.nvim, but
+" conform.nvim has a fallback to use the LSP format, which just makes 
+" life easier in cases where the LSP actually has a decent formatter:
+" Plug 'mhartington/formatter.nvim' " <- code_formatter
+Plug 'stevearc/conform.nvim' " code formatter, augments LSP formatter and replaces formatter.nvim
+
+
 " All of these nvim-cmp sources are necessary for nvim-cmp (see https://github.com/hrsh7th/nvim-cmp README.md)
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -51,11 +64,11 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
-" LSP package manager for nvim
-Plug 'williamboman/mason.nvim'
+
+
 
 " <code_formatter>
-Plug 'sbdchd/neoformat'
+" Plug 'sbdchd/neoformat'
 " </code_formatter>
 
 " code outline:
@@ -80,11 +93,15 @@ Plug 'tomasr/molokai'
 Plug 'fxn/vim-monochrome'
 Plug 'nightsense/snow'
 Plug 'rebelot/kanagawa.nvim'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'tinted-theming/base16-vim'
 
 " <terminal_plugins>
-" Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-Plug 'voldikss/vim-floaterm'
-Plug 'voldikss/fzf-floaterm'
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+Plug 'ryanmsnyder/toggleterm-manager.nvim'
+
+" Plug 'voldikss/vim-floaterm'
+" Plug 'voldikss/fzf-floaterm'
 " </terminal_plugins>
 
 " <clipboard>
@@ -121,7 +138,10 @@ Plug 'ekalinin/Dockerfile.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
-Plug 'sbdchd/neoformat'
+" IndentWise is a Vim plugin that provides for motions based on indent depths or levels in normal, visual, and operator-pending modes.
+" e.g. '[=', or ']='  to navigate to previous or next line of the same
+" indentation, see help for more ...
+Plug 'jeetsukumaran/vim-indentwise'
 
 Plug 'sheerun/vim-polyglot'
 
@@ -143,7 +163,7 @@ call plug#end()
 "   https://github.com/ibhagwan/smartyank.nvim
 
 filetype plugin indent on
-set nonumber
+set number
 autocmd filetype elixir,javascript,typescript,dockerfile,markdown setlocal number
 set colorcolumn=80
 
@@ -188,6 +208,8 @@ nnoremap gj :bnext<CR>
 nnoremap gk :bprevious<CR>
 nnoremap gh :tabprevious<CR>
 nnoremap gl :tabnext<CR>
+nnoremap gH :-tabmove<CR>
+nnoremap gL :+tabmove<CR>
 nnoremap T :tabnew<CR>
 " nnoremap DiffSplit :windo diffthis<CR>
 
@@ -240,62 +262,43 @@ vnoremap gch :TCommentAs html<CR>
 noremap gch :TCommentAs html<CR>
 
 " <vim_floatterm>
-" noremap   <silent>   <leader>z   :FloatermToggle<CR>
-" tnoremap   <silent>   <leader>z   <C-\><C-n>:FloatermToggle<CR>
+" noremap   <silent>   <leader>t  :FloatermToggle<CR>
+" tnoremap   <silent>   <leader>t   <C-\><C-n>:FloatermToggle<CR>
 "
-noremap   <silent>   <leader>t  :FloatermToggle<CR>
-tnoremap   <silent>   <leader>t   <C-\><C-n>:FloatermToggle<CR>
-
-" noremap   <silent>   <leader>ts   :FloatermShow<CR>
-" tnoremap   <silent>   <leader>ts   <C-\><C-n>:FloatermShow<CR>
+" tnoremap   <silent>   <leader>n    <C-\><C-n>:FloatermNew<CR>
 "
-" noremap   <silent>   <leader>th   :FloatermHide<CR>
-" tnoremap   <silent>   <leader>th   <C-\><C-n>:FloatermToggle<CR>
+" tnoremap   <silent>   <leader>s    <C-\><C-n>:Floaterms<CR>
+"
+" tnoremap   <leader>r    <C-\><C-n>:FloatermUpdate --title=
+"
+" tnoremap   <leader>h    <C-\><C-n>:FloatermUpdate --position=topleft<CR>
+" tnoremap   <leader>l    <C-\><C-n>:FloatermUpdate --position=topright<CR>
+" tnoremap   <leader>.    <C-\><C-n>:FloatermUpdate --position=center<CR>
+"
+" tnoremap   <silent>   <leader>[    <C-\><C-n>:FloatermPrev<CR>
+"
+" tnoremap   <silent>   <leader>]    <C-\><C-n>:FloatermPrev<CR>
+"
+" tnoremap   <silent>   <C-w>.   <C-\><C-n>
+" tnoremap   <silent>   <C-w>   <C-\><C-n><C-w>
+" tnoremap   <silent>   <leader>v   <C-\><C-n>:FloatermUpdate --wintype=vsplit<CR>
+" tnoremap   <silent>   <leader>f   <C-\><C-n>:FloatermUpdate --wintype=float<CR>
+"
+" let g:floaterm_wintype = 'float'
+" let g:floaterm_position = 'right'
+" let g:floaterm_height  = 1.0
+" let g:floaterm_autoinsert = v:true
 
-" nnoremap   <silent>   <leader>tc    :FloatermNew<CR>
-tnoremap   <silent>   <leader>n    <C-\><C-n>:FloatermNew<CR>
 
-nnoremap   <silent>   <leader>st    :Floaterms<CR>
-tnoremap   <silent>   <leader>st    <C-\><C-n>:Floaterms<CR>
-
-" nnoremap   <leader>tr    :FloatermUpdate --title=
-tnoremap   <leader>r    <C-\><C-n>:FloatermUpdate --title=
-
-tnoremap   <leader>h    <C-\><C-n>:FloatermUpdate --position=topleft<CR>
-tnoremap   <leader>l    <C-\><C-n>:FloatermUpdate --position=topright<CR>
-tnoremap   <leader>.    <C-\><C-n>:FloatermUpdate --position=center<CR>
-
-" nnoremap   <silent>   <leader>p    :FloatermPrev<CR>
-tnoremap   <silent>   <leader>[    <C-\><C-n>:FloatermPrev<CR>
-
-" nnoremap   <silent>   <leader>n    :FloatermNext<CR>
-" tnoremap   <silent>   <leader>n    <C-\><C-n>:FloatermNext<CR>
-tnoremap   <silent>   <leader>]    <C-\><C-n>:FloatermPrev<CR>
-
-" tnoremap   <silent>   <leader>tg   <C-\><C-n>:FloatermToggle<CR>
-
-" tnoremap   <silent>   <leader>tv   <C-\><C-n>
-
-" tnoremap   <silent>   <leader>vv   <C-\><C-n>
-tnoremap   <silent>   <C-w>.   <C-\><C-n>
-tnoremap   <silent>   <C-w>   <C-\><C-n><C-w>
-" tnoremap   <silent>   <leader>ts   <C-\><C-n>:FloatermUpdate --wintype=vsplit<CR>
-" tnoremap   <silent>   <leader>tf   <C-\><C-n>:FloatermUpdate --wintype=float<CR>
-
-let g:floaterm_wintype = 'float'
-let g:floaterm_position = 'center'
-" let g:floaterm_wintype = 'vsplit'
-let g:floaterm_height  = 1.0
-let g:floaterm_autoinsert = v:true
+" </vim_floatterm>
 
 noremap <leader>G :vert Git<CR>
 
-" </vim_floatterm>
 "
 "
 " <code_formatter>
-let g:neoformat_try_node_exe = 1
-nnoremap   <silent>   <space>n    :Neoformat<CR>
+" let g:neoformat_try_node_exe = 1
+" nnoremap   <silent>   <space>n    :Neoformat<CR>
 " </code_formatter>
 
 " <vim-indent-guides>
@@ -312,8 +315,6 @@ let g:indent_guides_color_change_percent = 2
 :command DiffGitOff only " Equivalent to <C-w><C-o>
 
 
-" Neoformat
-let g:neoformat_try_node_exe = 1
 
 
 " LSPs that need to be installed:
