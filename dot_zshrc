@@ -15,3 +15,10 @@ export PATH=$PATH:~/src/jetporch/target/release/
 # For git autocomplete support, as suggested here: 
 # https://stackoverflow.com/questions/73393101/how-to-enable-git-autocomplete-in-macos
 autoload -Uz compinit && compinit
+
+export EDITOR=nvim
+export VISUAL="$EDITOR"
+
+# Added this alias for my macOS installation of Tailscale, makes the CLI 
+# easily available as I've installed it via the macOS App Store:
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
