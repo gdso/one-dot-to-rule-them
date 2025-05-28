@@ -1,4 +1,9 @@
-. $HOME/.asdf/asdf.sh
+# This is from asdf installs < v0.15.x
+# TODO delete once asdf v0.17.x is installed and working
+# . $HOME/.asdf/asdf.sh
+export ASDF_CUSTOM_BIN="$HOME/src/dev-tools/bin/"
+export ASDF_DATA_DIR="/Users/gdso/.asdf"
+export UV_BIN="/Users/gdso/.local/bin"
 
 export CLICOLOR=1
 # eval "$(pyenv init -)"
@@ -9,8 +14,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
-# export PATH=$PATH:~/src/dev-tools/bin/
-export PATH=$PATH:~/src/jetporch/target/release/
+export PATH="$ASDF_DATA_DIR/shims:$ASDF_CUSTOM_BIN:$UV_BIN:$PATH"
 
 # For git autocomplete support, as suggested here: 
 # https://stackoverflow.com/questions/73393101/how-to-enable-git-autocomplete-in-macos
