@@ -1,9 +1,7 @@
 [user]
 	name = Gregory de Souza
-	# email = gdso@steptree.co
+	email = 536112+gdso@users.noreply.github.com
 
 [alias]
- config-email-steptree = config user.email gdso@steptree.co
- config-email-gmail = config user.email gdesouza@gmail.com
  config-email-noreply = config user.email 536112+gdso@users.noreply.github.com
 
