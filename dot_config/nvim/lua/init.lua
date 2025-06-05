@@ -130,6 +130,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 
 require("mason").setup()
+require("mason-lspconfig").setup()
 
 local util = require 'lspconfig.util'
 
@@ -145,7 +146,7 @@ require 'lspconfig'.elixirls.setup {
 
 require 'lspconfig'.flow.setup {}
 
-require 'lspconfig'.tsserver.setup {
+require 'lspconfig'.ts_ls.setup {
   -- filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" }
 }
@@ -220,15 +221,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     -- NOTE doubling <C-k> puts cursor/focus into the popup
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<spacspacee>D', vim.lsp.buf.type_definition, opts)
+
+    -- NOTE not sure if I'll realy use these LSP shortcuts:
+    -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    -- vim.keymap.set('n', '<space>wl', function()
+    --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end, opts)
+
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<space>rw', ":%s/<c-r><c-w>/", opts)
-    vim.keymap.set('n', '<space>qr', ":cfdo %s/<c-r><c-w>/", {})
+    -- vim.keymap.set('n', '<space>rw', ":%s/<c-r><c-w>/", opts)
+    -- vim.keymap.set('n', '<space>qr', ":cfdo %s/<c-r><c-w>/", {})
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
     -- See telescope_setup's builtin.lsp_references	 keymap
     -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
@@ -439,37 +443,59 @@ local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 vim.keymap.set('n', '<leader>ss', builtin.live_grep, {})
+vim.keymap.set('n', '<space>gg', builtin.live_grep, {})
 
 -- mnemonic: \sw => search word
 vim.keymap.set('n', '<leader>sw', builtin.grep_string, {})
+vim.keymap.set('n', '<space>gw', builtin.grep_string, {})
 
 vim.keymap.set('n', '<leader>sy', ":Telescope grep_string search=<c-r>0<cr>", {})
--- NOTE I'm chooing not to use builtin.current_buffer_fuzzy_find because it 
--- does not use ripgrep, doesn't support exact match or regex in general 
+vim.keymap.set('n', '<space>gy', ":Telescope grep_string search=<c-r>0<cr>", {})
+-- NOTE I'm chooing not to use builtin.current_buffer_fuzzy_find because it
+-- does not use ripgrep, doesn't support exact match or regex in general
 -- it's fuzzy which pollutes results
 -- vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find, {})
--- mnemonic: \sb => search bufferS
+vim.keymap.set('n', '<space>l', builtin.current_buffer_fuzzy_find, {})
 vim.keymap.set('n', '<leader>sb', function()
   builtin.live_grep({ grep_open_files = true })
 end
 , {})
+vim.keymap.set('n', '<space>gb', function()
+  builtin.live_grep({ grep_open_files = true })
+end
+, {})
+
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, {})
+vim.keymap.set('n', '<space>h', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>sq', builtin.quickfixhistory, {})
 vim.keymap.set('n', '<leader>st', ":Telescope toggleterm_manager<CR>", {})
 vim.keymap.set('t', '<leader>st', '<C-\\><C-n>:Telescope toggleterm_manager<CR>', {})
 vim.keymap.set('n', '<leader>qq', builtin.quickfix, {})
 vim.keymap.set('n', '<leader>qh', builtin.quickfixhistory, {})
+
 vim.keymap.set('n', '<leader>rw', ":%s/<c-r><c-w>/", {})
+vim.keymap.set('n', '<space>rw', ":%s/<c-r><c-w>/", {})
 vim.keymap.set('n', '<leader>ry', ':%s/<c-r>"/', {})
+vim.keymap.set('n', '<space>ry', ':%s/<c-r>"/', {})
+
+vim.keymap.set('n', '<leader>rs', ":%s/", {})
+vim.keymap.set('n', '<space>rs', ":%s/", {})
+
 vim.keymap.set('n', '<leader>ra', ":cfdo %s/<c-r><c-w>/", {})
--- vim.keymap.set('n', '<space>b', builtin.buffers, {})
+vim.keymap.set('n', '<space>ra', ":cfdo %s/<c-r><c-w>/", {})
+
+vim.keymap.set('n', '<space>T', builtin.builtin, {})
+
+vim.keymap.set('n', '<space>f', builtin.find_files, {})
+vim.keymap.set('n', '<space>b', builtin.buffers, {})
+vim.keymap.set('n', '<space>m', builtin.marks, {})
 vim.keymap.set('n', '<space>d', builtin.diagnostics, {})
 vim.keymap.set('n', '<space>s', builtin.lsp_document_symbols, {})
-vim.keymap.set('n', '<space>ws', builtin.lsp_dynamic_workspace_symbols, {})
+-- vim.keymap.set('n', '<space>ws', builtin.lsp_dynamic_workspace_symbols, {})
 vim.keymap.set('n', '<space>r', builtin.lsp_references, {})
-vim.keymap.set('n', '<space>gs', builtin.git_status, {})
-vim.keymap.set('n', '<space>gc', builtin.git_commits, {})
-vim.keymap.set('n', '<space>gb', builtin.git_bcommits, {})
+-- vim.keymap.set('n', '<space>gs', builtin.git_status, {})
+-- vim.keymap.set('n', '<space>gc', builtin.git_commits, {})
+-- vim.keymap.set('n', '<space>gc', builtin.git_bcommits, {})
 vim.keymap.set('n', '<space>o', builtin.oldfiles, {})
 
 
@@ -483,7 +509,7 @@ require("telescope").setup {
       }
     },
     dynamic_preview_title = true,
-    mappings = {
+    mappings              = {
       n = {
         ["q"] = actions.send_to_qflist + actions.open_qflist,
         ["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
@@ -529,8 +555,6 @@ require("telescope").setup {
 -- </telescope_setup>
 --
 
-
-
 -- <telescope_file_browser>
 vim.api.nvim_set_keymap(
   "n",
@@ -552,7 +576,27 @@ vim.api.nvim_set_keymap(
   { noremap = true }
 )
 
+vim.api.nvim_set_keymap(
+  "n",
+  "<space>w",
+  ":Telescope file_browser path=%:p:h select_buffer=true <cr>",
+  { noremap = true }
+)
+
 -- </telescope_file_browser>
+
+-- <telescope_tabs>
+require('telescope').load_extension 'telescope-tabs'
+require('telescope-tabs').setup {
+  -- Your custom config :^)
+}
+vim.api.nvim_set_keymap(
+  "n",
+  "<space>t",
+  ":Telescope telescope-tabs list_tabs <cr>",
+  { noremap = true }
+)
+-- </telescope_tabs>
 
 -- <nvim_web_icons_setup>
 require 'nvim-web-devicons'.setup {
@@ -703,7 +747,8 @@ require("conform").setup({
     typescript = { 'prettier' },
     typescriptreact = { 'prettier' },
     json = { 'prettier' },
-    jsonc = { 'prettier' }
+    jsonc = { 'prettier' },
+    markdown = { 'prettier' }
   },
   -- format_on_save = {
   --   -- These options will be passed to conform.format()
@@ -724,6 +769,281 @@ vim.api.nvim_create_user_command("Format", function(args)
   require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
 
-vim.keymap.set('n', '<space>f', ':Format<CR>', {})
+vim.keymap.set('n', '<space>F', ':Format<CR>', {})
 
 -- </conform.nvim>
+--
+
+
+-- <mini.nvim>
+-- require('mini.animate').setup({
+--   scroll = {
+--     enable = false
+--     -- enable = false
+--   },
+--   -- Window resize
+--   resize = {
+--     -- Whether to enable this animation
+--     enable = false
+--
+--     -- Timing of animation (how steps will progress in time)
+--     -- timing = --<function: implements linear total 250ms animation duration>,
+--
+--     -- Subresize generator for all steps of resize animations
+--     -- subresize = --<function: implements equal linear steps>,
+--   }
+-- })
+require('mini.icons').setup()
+-- require('mini.clue').setup()
+-- </mini.nvim>
+--
+
+-- <specs.nvim>
+-- require('specs').setup({
+--     show_jumps  = true,
+--     min_jump = 30,
+--     popup = {
+--         delay_ms = 0, -- delay before popup displays
+--         inc_ms = 10, -- time increments used for fade/resize effects
+--         blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
+--         width = 10,
+--         winhl = "PMenu",
+--         fader = require('specs').linear_fader,
+--         resizer = require('specs').shrink_resizer
+--     },
+--     ignore_filetypes = {},
+--     ignore_buftypes = {
+--         nofile = true,
+--     },
+-- })
+-- </specs.nvim>
+
+-- <nvim-treesitter>
+-- vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
+-- NOTE to use treesitter's folding, you need to set foldmethod='expr',
+-- but since typescriptreact files aren't working, I'm going to set it to
+-- indent:
+-- vim.wo.foldmethod = 'expr'
+vim.wo.foldmethod = 'indent'
+vim.wo.foldlevel = 1
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.wo.foldcolumn = '0'
+
+-- NOT sure if this is reqired over the longterm, but
+-- nvim-treesitter isn't being used for tsx files, so I'm trying this hack:
+-- vim.treesitter.language.register("typescript", "typescriptreact")
+
+require 'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
+  ensure_installed = {
+    "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",
+    -- my additions:
+    "bash",
+    "elixir", "heex", "eex",
+    "typescript", "javascript", "css", "json", "jsonc",
+    "python", "yaml",
+    "zig", "rust",
+  },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = false,
+
+  -- List of parsers to ignore installing (or "all")
+  -- ignore_install = { "javascript" },
+
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+  highlight = {
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- the name of the parser)
+    -- list of language that will be disabled
+    -- disable = { "c", "rust" },
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    -- disable = function(lang, buf)
+    --     local max_filesize = 100 * 1024 -- 100 KB
+    --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+    --     if ok and stats and stats.size > max_filesize then
+    --         return true
+    --     end
+    -- end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  indentation = {
+    enable = true
+  },
+  folding = {
+    enable = true
+  }
+}
+-- </nvim-treesitter>
+
+-- <remote_clipboard_plugins>
+require('smartyank').setup {
+  osc52 = {
+    enabled = true,
+    -- escseq = 'tmux',     -- use tmux escape sequence, only enable if
+    -- you're using tmux and have issues (see #4)
+
+    -- default ssh_only = true
+    ssh_only = false,      -- false to OSC52 yank also in local sessions
+
+    silent = false,        -- true to disable the "n chars copied" echo
+    echo_hl = "Directory", -- highlight group of the OSC52 echo message
+  },
+
+}
+-- </remote_clipboard_plugins>
+
+-- <cutlass.nvim>
+require("cutlass").setup({
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  --
+  -- NOTE I'm NOT setting the cut_key because we're going to rely
+  -- on visual x, normal/visual X to cut, but NOT x in normal mode:
+  cut_key = "x",
+})
+
+-- vim.keymap.set('n', 'x', '"_x',
+--   { noremap = true, nowait = true }
+-- )
+
+-- vim.keymap.set('x', 'x', "d",
+--   { noremap = true }
+-- )
+-- vim.keymap.set('n', 'xx', "dd",
+--   { noremap = true }
+-- )
+-- vim.keymap.set('n', 'X', "D",
+--   { noremap = true }
+-- )
+
+-- </cutlass.nvim>
+
+-- <marks.nvim>
+require 'marks'.setup {
+  -- whether to map keybinds or not. default true
+  default_mappings = true,
+  -- which builtin marks to show. default {}
+  builtin_marks = { ".", "<", ">", "^" },
+  -- whether movements cycle back to the beginning/end of buffer. default true
+  cyclic = true,
+  -- whether the shada file is updated after modifying uppercase marks. default false
+  force_write_shada = false,
+  -- how often (in ms) to redraw signs/recompute mark positions.
+  -- higher values will have better performance but may cause visual lag,
+  -- while lower values may cause performance penalties. default 150.
+  refresh_interval = 250,
+  -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+  -- marks, and bookmarks.
+  -- can be either a table with all/none of the keys, or a single number, in which case
+  -- the priority applies to all marks.
+  -- default 10.
+  sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
+  -- disables mark tracking for specific filetypes. default {}
+  excluded_filetypes = {},
+  -- disables mark tracking for specific buftypes. default {}
+  excluded_buftypes = {},
+  -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
+  -- sign/virttext. Bookmarks can be used to group together positions and quickly move
+  -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
+  -- default virt_text is "".
+  bookmark_0 = {
+    sign = "⚑",
+    virt_text = "hello world",
+    -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
+    -- defaults to false.
+    annotate = false,
+  },
+  mappings = {}
+}
+-- </marks.nvim>
+
+
+-- <indent-blankline.nvim>
+-- <indent-blankline.nvim>
+require("ibl").setup()
+-- </indent-blankline.nvim>
+
+-- <custom_ex_commands>
+vim.api.nvim_create_user_command('YankPL', function()
+  local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+  local line_number = vim.fn.line(".")
+  vim.fn.setreg('+', relative_path .. ":" .. line_number)
+end, {})
+-- </custom_ex_commands>
+
+-- <nvim_scrolling>
+require('neoscroll').setup({
+  mappings = {                 -- Keys to be mapped to their corresponding default scrolling animation
+    '<C-u>', '<C-d>',
+    '<C-b>', '<C-f>',
+    '<C-y>', '<C-e>',
+    'zt', 'zz', 'zb',
+  },
+  hide_cursor = true,          -- Hide cursor while scrolling
+  stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+  respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+  cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+  duration_multiplier = 1.0,   -- Global duration multiplier
+  easing = 'linear',           -- Default easing function
+  pre_hook = nil,              -- Function to run before the scrolling animation starts
+  post_hook = nil,             -- Function to run after the scrolling animation ends
+  performance_mode = false,    -- Disable "Performance Mode" on all buffers.
+  ignored_events = {           -- Events ignored while scrolling
+      'WinScrolled', 'CursorMoved'
+  },
+})
+-- </nvim_scrolling>
+
+-- <custom_commenting_commands>
+
+vim.api.nvim_create_user_command('CommentJSConsoleCalls', function()
+  -- vim.cmd("%s/^\([:space:]*\\)console/\1\\/\\/ console/ga")
+  vim.cmd("%s/^\\([[:space:]]*\\)console/\\1\\/\\/ console/gc")
+end, {})
+
+vim.api.nvim_create_user_command('UncommentJSConsoleCalls', function()
+  -- vim.cmd("%s/^\([[:space:]]*\\)console/\1\\/\\/ console/ga")
+  vim.cmd("%s/^\\([[:space:]]*\\)\\/\\/[[:space:]]\\?console/\\1console/gc")
+end, {})
+-- </custom_commenting_commands>
+
+
+-- <log_highlight_plugin>
+require('log-highlight').setup {
+    -- The following options support either a string or a table of strings.
+
+    -- The file extensions.
+    extension = {
+      'log',
+      'dump'
+    },
+
+    -- The file names or the full file paths.
+    filename = {
+        'messages',
+    },
+
+    -- The file path glob patterns, e.g. `.*%.lg`, `/var/log/.*`.
+    -- Note: `%.` is to match a literal dot (`.`) in a pattern in Lua, but most
+    -- of the time `.` and `%.` here make no observable difference.
+    pattern = {
+        '/var/log/.*',
+        'messages%..*',
+    },
+}
+-- </log_highlight_plugin>

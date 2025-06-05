@@ -31,24 +31,52 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 " Plug 'andymass/vim-matchup'
 
+
 " Plugin outside ~/.vim/plugged with post-update hook
 " Buffer and File explorers
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+
+" <telescope>
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 " or                                , { 'branch': '0.1.x' }
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
+" </telescope>
+"
+" <telescope_tabs>
+Plug 'LukasPietzschmann/telescope-tabs'
+" </telescope_tabs>
+"
+" <marks>
+Plug 'chentoast/marks.nvim'
+" </marks>
+
+" <treesitter>
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'echasnovski/mini.nvim'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
+" </treesitter>
+"
+" <treesitter_plugins>
+Plug 'nvim-treesitter/nvim-treesitter-context'
+" </treesitter_plugins>
+
+" <nvim_scrolling>
+Plug 'karb94/neoscroll.nvim'
+" </nvim_scrolling>
+
+" cursor movement plugins
+" Plug 'edluffy/specs.nvim'
 
 " <LSP_plugins>
 "
 " LSP package manager for nvim
 Plug 'williamboman/mason.nvim'
-
-" NOTE mason.nvim recommends we install along with neovim/nvim-lspconfig:
-" Plug 'williamboman/mason-lspconfig.nvim'
+" NOTE mason.nvim recommends we install mason-lspconfig along with neovim/nvim-lspconfig:
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 " mason.nvim also recommends formatter.nvim along with mason.nvim, but
 " conform.nvim has a fallback to use the LSP format, which just makes 
@@ -65,7 +93,9 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
 
-
+" <llm_tools>
+Plug 'github/copilot.vim'
+" </llm_tools>
 
 " <code_formatter>
 " Plug 'sbdchd/neoformat'
@@ -107,11 +137,12 @@ Plug 'ryanmsnyder/toggleterm-manager.nvim'
 " <clipboard>
 
 " For simplifying vim's terrible approach to copy/paste/cut:
-Plug 'svermeulen/vim-cutlass'
+" Plug 'svermeulen/vim-cutlass'
+Plug 'gbprod/cutlass.nvim'
 
 " <remote_clipboard_plugins>
 " Plug 'ojroques/vim-oscyank', {'branch': 'main'}
-" Plug 'machakann/vim-highlightedyank'
+" Plug 'machakann/vim-hilghlightedyank'
 " https://github.com/ibhagwan/smartyank.nvim
 Plug 'ibhagwan/smartyank.nvim'
 " </remote_clipboard_plugins>
@@ -136,14 +167,23 @@ Plug 'ellisonleao/glow.nvim'
 " For Dockerfile syntax support
 Plug 'ekalinin/Dockerfile.vim'
 
-Plug 'nathanaelkane/vim-indent-guides'
+
+" NOTE  'nathanaelkane/vim-indent-guides' seems to be defunct as of  Jan 2025:
+" Plug 'nathanaelkane/vim-indent-guides'
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " IndentWise is a Vim plugin that provides for motions based on indent depths or levels in normal, visual, and operator-pending modes.
 " e.g. '[=', or ']='  to navigate to previous or next line of the same
 " indentation, see help for more ...
 Plug 'jeetsukumaran/vim-indentwise'
 
-Plug 'sheerun/vim-polyglot'
+" <log_highlight_plugin>
+" For syntax highlighting of log files:
+" https://github.com/fei6409/log-highlight.nvim
+Plug 'fei6409/log-highlight.nvim'
+" </log_highlight_plugin>
+
+" Plug 'sheerun/vim-polyglot'
 
 " lua << EOF
 " require('glow').setup()
@@ -165,6 +205,7 @@ call plug#end()
 filetype plugin indent on
 set number
 autocmd filetype elixir,javascript,typescript,dockerfile,markdown setlocal number
+" autocmd filetype typescriptreact set foldmethod=indent
 set colorcolumn=80
 
 " Theme
@@ -204,12 +245,28 @@ noremap s :update<cr>
 nnoremap <leader>c :close<CR>
 vnoremap  <leader>y "+y
 vnoremap <leader>p "+p
-nnoremap gj :bnext<CR>
-nnoremap gk :bprevious<CR>
-nnoremap gh :tabprevious<CR>
-nnoremap gl :tabnext<CR>
-nnoremap gH :-tabmove<CR>
-nnoremap gL :+tabmove<CR>
+
+nnoremap go <C-w><C-o>
+nnoremap gh <C-w>h
+nnoremap gH <C-w>H
+nnoremap gl <C-w>l
+nnoremap gL <C-w>L
+nnoremap gk <C-w>k
+nnoremap gj <C-w>j
+" To close a split:
+nnoremap g- <C-w>c
+" To jump to a split buffer based on the current buffer
+nnoremap g= <C-w>v<C-w>l
+" To jump to a popup window:
+nnoremap gw <C-w>w
+" To move window to a new tab:
+nnoremap gt <C-w>T
+
+nnoremap th :tabprevious<CR>
+nnoremap tl :tabnext<CR>
+nnoremap tH :-tabmove<CR>
+nnoremap tL :+tabmove<CR>
+
 nnoremap T :tabnew<CR>
 " nnoremap DiffSplit :windo diffthis<CR>
 
@@ -222,9 +279,12 @@ nnoremap T :tabnew<CR>
 set shiftwidth=2
 set expandtab
 set tabstop=2
-set foldmethod=indent   
-set foldlevel=2
-set foldcolumn=1
+" set foldmethod=indent   
+" set foldmethod=syntax
+" set foldlevel=2
+" set foldcolumn=0
+" set foldcolumn=1
+" set foldcolumn=auto:9
 
 " All language servers seem to need this, and so does ToggleTerm:
 set hidden
@@ -241,21 +301,32 @@ nmap <leader>yy <leader>c_
 vmap <leader>y <Plug>OSCYankVisual
 " </vim_oscyank_setup>
 
+" <vim-cutlass>
 " Some maps from vim-cutlass to support 'cut' operations since vim-cutlass
 " disables cut on deletion (see https://github.com/svermeulen/vim-cutlass
 " README.md):
-nnoremap m 
-xnoremap m d
-nnoremap mm dd
-nnoremap M D
+" nnoremap m 
+" xnoremap m d
+" nnoremap mm dd
+" nnoremap M D
+
 " nnoremap x d
 " xnoremap x d
 " nnoremap xx dd
 " nnoremap X D
+" </vim-cutlass>
+
+" <smartyank.nvim>
+" https://stackoverflow.com/questions/11993851/how-to-delete-not-cut-in-vim
+
+nnoremap x "_x
 
 " Personal opinion, but p in visual mode should NEVER yank the selection
 " that will be overwritten by the paste/put:
 vnoremap p P
+
+" <smartyank.nvim>
+
 
 
 vnoremap gch :TCommentAs html<CR>
@@ -316,6 +387,8 @@ let g:indent_guides_color_change_percent = 2
 
 
 
+" For :Cfilter, :Lfilter commands
+packadd cfilter
 
 " LSPs that need to be installed:
 " 
