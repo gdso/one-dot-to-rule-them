@@ -23,7 +23,7 @@ glow 1.5.1
 
 # gopass
 # asdf plugin add gopass https://github.com/trallnag/asdf-gopass.git
-gopass 1.15.8
+gopass 1.15.16
 
 # NOTE bashls depedencies:
 #  - shellcheck
@@ -41,3 +41,6 @@ zellij 0.41.2
 # Prerequisite: `asdf plugin add lazygit`
 # See docs: https://github.com/nklmilojevic/asdf-lazygit
 lazygit 0.50.0
+
+# https://github.com/asdf-community/asdf-uv
+# uv 0.7.8
