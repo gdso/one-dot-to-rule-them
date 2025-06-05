@@ -33,6 +33,12 @@ My personal dotfile backup, powered by `chezmoi`
 
 ## Using `chezmoi`
 
+### Check the status
+
+To see you the status of your dotfiles, including which files 
+are managed by `chezmoi`, which files have been modified, and which files are not tracked.
+
+    $ chezmoi status
 
 ### Add a file into chezmoi's management
 
@@ -48,3 +54,6 @@ My personal dotfile backup, powered by `chezmoi`
 If you edit a configuration file without `chezmoi edit`, you can _re-add_ it:
 
     $ chezmoi re-add [path_to_file]
+
+This is very useful since you'll most likely edit files directly, 
+and realize after the fact that you made changes when you [check the status](#check-the-status).
