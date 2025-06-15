@@ -49,7 +49,11 @@ Plug 'nvim-tree/nvim-web-devicons'
 " <telescope_tabs>
 Plug 'LukasPietzschmann/telescope-tabs'
 " </telescope_tabs>
-"
+
+" <oil_file_explorer_plugin>
+Plug 'stevearc/oil.nvim'
+" </oil_file_explorer_plugin>
+
 " <marks>
 Plug 'chentoast/marks.nvim'
 " </marks>

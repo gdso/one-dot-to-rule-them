@@ -444,6 +444,16 @@ vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 vim.keymap.set('n', '<leader>ss', builtin.live_grep, {})
 vim.keymap.set('n', '<space>gg', builtin.live_grep, {})
+vim.keymap.set('n', '<space>ga', function()
+  builtin.live_grep({
+    additional_args = { "--hidden" }
+  })
+end)
+-- vim.keymap.set('n', '<space>ga', builtin.live_grep, {
+--   -- additional_args = function(_)
+--   --   return { "--hidden" }
+--   -- end
+-- })
 
 -- mnemonic: \sw => search word
 vim.keymap.set('n', '<leader>sw', builtin.grep_string, {})
@@ -794,6 +804,7 @@ vim.keymap.set('n', '<space>F', ':Format<CR>', {})
 --   }
 -- })
 require('mini.icons').setup()
+-- require('mini.files').setup()
 -- require('mini.clue').setup()
 -- </mini.nvim>
 --
@@ -988,7 +999,7 @@ end, {})
 
 -- <nvim_scrolling>
 require('neoscroll').setup({
-  mappings = {                 -- Keys to be mapped to their corresponding default scrolling animation
+  mappings = { -- Keys to be mapped to their corresponding default scrolling animation
     '<C-u>', '<C-d>',
     '<C-b>', '<C-f>',
     '<C-y>', '<C-e>',
@@ -1004,7 +1015,7 @@ require('neoscroll').setup({
   post_hook = nil,             -- Function to run after the scrolling animation ends
   performance_mode = false,    -- Disable "Performance Mode" on all buffers.
   ignored_events = {           -- Events ignored while scrolling
-      'WinScrolled', 'CursorMoved'
+    'WinScrolled', 'CursorMoved'
   },
 })
 -- </nvim_scrolling>
@@ -1025,25 +1036,51 @@ end, {})
 
 -- <log_highlight_plugin>
 require('log-highlight').setup {
-    -- The following options support either a string or a table of strings.
+  -- The following options support either a string or a table of strings.
 
-    -- The file extensions.
-    extension = {
-      'log',
-      'dump'
-    },
+  -- The file extensions.
+  extension = {
+    'log',
+    'dump'
+  },
 
-    -- The file names or the full file paths.
-    filename = {
-        'messages',
-    },
+  -- The file names or the full file paths.
+  filename = {
+    'messages',
+  },
 
-    -- The file path glob patterns, e.g. `.*%.lg`, `/var/log/.*`.
-    -- Note: `%.` is to match a literal dot (`.`) in a pattern in Lua, but most
-    -- of the time `.` and `%.` here make no observable difference.
-    pattern = {
-        '/var/log/.*',
-        'messages%..*',
-    },
+  -- The file path glob patterns, e.g. `.*%.lg`, `/var/log/.*`.
+  -- Note: `%.` is to match a literal dot (`.`) in a pattern in Lua, but most
+  -- of the time `.` and `%.` here make no observable difference.
+  pattern = {
+    '/var/log/.*',
+    'messages%..*',
+  },
 }
 -- </log_highlight_plugin>
+
+
+-- <oil_file_explorer_plugin>
+-- <oil_file_explorer_plugin>
+require("oil").setup(
+  {
+    -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+    -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
+    default_file_explorer = false,
+    columns               = {
+      "icon",
+      "permissions",
+      "size",
+      "mtime",
+    },
+    view_options          = {
+      -- Show files and directories that start with "."
+      show_hidden = false,
+    },
+    float                 = {
+      preview_split = "right"
+    }
+  }
+)
+vim.keymap.set("n", "<space>W", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
+-- </oil_file_explorer_plugin>
