@@ -13,6 +13,10 @@ neovim 0.10.1
 
 # tmux 3.2a
 
+# asdf plugin add lua https://github.com/Stratus3D/asdf-lua.git
+# lua 5.4.7
+# I'm just going to use brew for this ...
+
 # lua language server for nvim's lua config:
 lua-language-server 3.6.23
 
@@ -44,3 +48,9 @@ lazygit 0.50.0
 
 # https://github.com/asdf-community/asdf-uv
 # uv 0.7.8
+
+# BEGIN ANSIBLE MANAGED BLOCK
+# See Ansible playbook https://github.com/gdso/dev-env-playbooks
+# Depends on plugin https://github.com/joke/asdf-chezmoi being installed:
+chezmoi 2.62.6
+# END ANSIBLE MANAGED BLOCK

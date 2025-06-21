@@ -1,10 +1,8 @@
 # This is from asdf installs < v0.15.x
 # TODO delete once asdf v0.17.x is installed and working
 # . $HOME/.asdf/asdf.sh
-export ASDF_CUSTOM_BIN="$HOME/src/dev-tools/bin/"
-export ASDF_DATA_DIR="/Users/gdso/.asdf"
 export UV_BIN="/Users/gdso/.local/bin"
-
+export MY_SCRIPTS_BIN="$HOME/src/scripts/bin"
 export CLICOLOR=1
 # eval "$(pyenv init -)"
 
@@ -13,8 +11,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
-export PATH="$ASDF_DATA_DIR/shims:$ASDF_CUSTOM_BIN:$UV_BIN:$PATH"
+PATH="/Users/gdso/usr/releases/asdf-v0.18.0-darwin-arm64/:$PATH"
+PATH="$HOME/.asdf/shims:$PATH"
+export PATH="$MY_SCRIPTS_BIN:$UV_BIN:$PATH"
 
 # For git autocomplete support, as suggested here: 
 # https://stackoverflow.com/questions/73393101/how-to-enable-git-autocomplete-in-macos
@@ -26,3 +25,6 @@ export VISUAL="$EDITOR"
 # Added this alias for my macOS installation of Tailscale, makes the CLI 
 # easily available as I've installed it via the macOS App Store:
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+# The alias didn't work, FYI, had to introduce ~/src/scripts/bin/nvim_lazy 
+# alias nvim_lazy ='NVIM_APPNAME="lazy_nvim_migration" nvim'

@@ -1037,7 +1037,6 @@ end, {})
 -- <log_highlight_plugin>
 require('log-highlight').setup {
   -- The following options support either a string or a table of strings.
-
   -- The file extensions.
   extension = {
     'log',
