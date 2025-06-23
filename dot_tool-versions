@@ -1,7 +1,13 @@
 nodejs 22.14.0
-ripgrep 13.0.0
 postgres 12.5
 python 3.10.1
+
+
+# File and search tools
+ripgrep 13.0.0
+# https://github.com/kompiro/asdf-fzf
+# asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
+fzf 0.62.0
 
 # erlang 24.2
 # elixir v1.13.2-otp-24
