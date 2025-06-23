@@ -2,18 +2,19 @@
 # TODO delete once asdf v0.17.x is installed and working
 # . $HOME/.asdf/asdf.sh
 export UV_BIN="/Users/gdso/.local/bin"
-export MY_SCRIPTS_BIN="$HOME/src/scripts/bin"
 export CLICOLOR=1
 # eval "$(pyenv init -)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# the old fzf setup?
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 PATH="/Users/gdso/usr/releases/asdf-v0.18.0-darwin-arm64/:$PATH"
 PATH="$HOME/.asdf/shims:$PATH"
-export PATH="$MY_SCRIPTS_BIN:$UV_BIN:$PATH"
+PATH="/Users/gdso/src/nvim_lazy_migration/bin/:$PATH"
+export PATH="$UV_BIN:$PATH"
 
 # For git autocomplete support, as suggested here: 
 # https://stackoverflow.com/questions/73393101/how-to-enable-git-autocomplete-in-macos
@@ -28,3 +29,14 @@ alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # The alias didn't work, FYI, had to introduce ~/src/scripts/bin/nvim_lazy 
 # alias nvim_lazy ='NVIM_APPNAME="lazy_nvim_migration" nvim'
+
+# <fzf_setup>
+# See docs: https://github.com/junegunn/fzf
+
+# In zsh, set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+# For bash:
+# eval "$(fzf --bash)"
+
+# </fzf_setup>
