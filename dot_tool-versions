@@ -3,8 +3,12 @@ postgres 12.5
 python 3.10.1
 
 
-# File and search tools
+# <file_search_tools>
 ripgrep 13.0.0
+# TODO add https://gitlab.com/wt0f/asdf-fd https://github.com/sharkdp/fd to 
+# speed up telescope file browser!
+# </file_search_tools>
+
 # https://github.com/kompiro/asdf-fzf
 # asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 fzf 0.62.0
