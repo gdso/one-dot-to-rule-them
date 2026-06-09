@@ -7,7 +7,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -32,12 +32,9 @@ require("lazy").setup({
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
+
+  -- From https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#quickstart
+  -- {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"}
+  -- {"nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate"}
 })
-
--- <my_init>
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-vim.cmd("colorscheme kanagawa")
-
--- <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
--- </my_init>

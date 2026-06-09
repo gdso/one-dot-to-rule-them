@@ -1,0 +1,58 @@
+return {
+	-- {
+	-- 	lazy = false,
+	-- 	"romgrk/barbar.nvim",
+	-- 	version = "^1.0.0", -- optional: only update when a new 1.x version is released
+	-- 	dependencies = {
+	-- 		"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+	-- 		"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+	-- 	},
+	-- 	init = function()
+	-- 		vim.g.barbar_auto_setup = false
+	-- 	end,
+	-- 	opts = {
+	-- 		-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+	-- 		-- animation = true,
+	-- 		-- insert_at_start = true,
+	-- 		-- …etc.
+	-- 	},
+	-- 	keys = {
+	-- 		{ "tj", "<cmd>BufferPick<cr>", desc = "Jump to buffer/tab (barbar.nvim)" },
+	-- 		{ "td", "<cmd>BufferPickDelete<cr>", desc = "Delete multiple buffers/tabs (barbar.nvim)" },
+	-- 		{ "t-", "<cmd>BufferClose<cr>", desc = "Close buffer/tab (barbar.nvim)" },
+	-- 		{ "T-", "<cmd>BufferRestore<cr>", desc = "Restore closed buffer/tab (barbar.nvim)" },
+	-- 		{ "tn", "<cmd>BufferNext<cr>", desc = "Go to next buffer/tab (barbar.nvim)" },
+	-- 		{ "tl", "<cmd>BufferNext<cr>", desc = "Go to next buffer/tab (barbar.nvim)" },
+	-- 		{ "tp", "<cmd>BufferPrevious<cr>", desc = "Got to previous buffer/tab (barbar.nvim)" },
+	-- 		{ "th", "<cmd>BufferPrevious<cr>", desc = "Got to previous buffer/tab (barbar.nvim)" },
+	-- 		{ "t<", "<cmd>BufferMovePrevious<cr>", desc = "Move buffer/tab previous (barbar.nvim)" },
+	-- 		{ "t>", "<cmd>BufferMoveNext<cr>", desc = "Move buffer/tab next (barbar.nvim)" },
+	-- 	},
+	-- },
+	-- using lazy.nvim
+	-- { "akinsho/bufferline.nvim", lazy = false, version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
+	-- {
+	-- 	"nanozuki/tabby.nvim",
+	-- 	dependencies = {
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 	},
+	-- 	---@type TabbyConfig
+	-- 	opts = {
+	-- 		-- preset = "active_wins_at_end",
+	-- 		-- configs...
+	-- 	},
+	-- 	keys = {
+	-- 		-- NOTE @init.lua #L90 contains some 't*' related keymaps
+	-- 		{ "tj", "<cmd>Tabby jump_to_tab<cr>", desc = "Jump to buffer/tab (barbar.nvim)" },
+	-- 	},
+	-- },
+	-- {
+	-- 	lazy = false,
+	-- 	"nvim-mini/mini.nvim",
+	-- 	version = "*",
+	-- 	opts = {},
+	-- 	config = function(_, opts)
+	-- 		require("mini.tabline").setup({})
+	-- 	end,
+	-- },
+}

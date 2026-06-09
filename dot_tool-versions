@@ -1,44 +1,42 @@
 nodejs 22.14.0
 postgres 12.5
-python 3.10.1
 
+# python 3.10.1
+# For perpetuum --
+python 3.11.9
 
 # <file_search_tools>
 ripgrep 13.0.0
-# TODO add https://gitlab.com/wt0f/asdf-fd https://github.com/sharkdp/fd to 
+# TODO add https://gitlab.com/wt0f/asdf-fd https://github.com/sharkdp/fd to
 # speed up telescope file browser!
+fd 10.2.0
 # </file_search_tools>
-
+# <git_related>
+# https://github.com/andweeb/asdf-delta
+delta 0.18.2
+# </git_related>
 # https://github.com/kompiro/asdf-fzf
 # asdf plugin add fzf https://github.com/kompiro/asdf-fzf.git
 fzf 0.62.0
-
 # erlang 24.2
 # elixir v1.13.2-otp-24
 erlang 25.2.3
 elixir v1.14.3-otp-25
-
 # neovim stable
-neovim 0.10.1
-
+neovim 0.11.2
+# neovim 0.10.1
 # tmux 3.2a
-
 # asdf plugin add lua https://github.com/Stratus3D/asdf-lua.git
 # lua 5.4.7
 # I'm just going to use brew for this ...
-
 # lua language server for nvim's lua config:
 lua-language-server 3.6.23
-
 # glow
 # asdf plugin add glow https://github.com/chessmango/asdf-glow.git
 glow 1.5.1
-
-
 # gopass
 # asdf plugin add gopass https://github.com/trallnag/asdf-gopass.git
 gopass 1.15.16
-
 # NOTE bashls depedencies:
 #  - shellcheck
 #  - explainshell
@@ -48,19 +46,25 @@ gopass 1.15.16
 # asdf plugin add shellcheck https://github.com/luizm/asdf-shellcheck.git
 shellcheck 0.9.0
 
-# Latest zellij as of Sep 2024 is 0.40.1
-# TODO Update to  - 0.41.2 (released Nov 2024):
-zellij 0.41.2
+# Latest zellij as of Apr 15 2025 is 0.41.2
+zellij 0.42.2
 
 # Prerequisite: `asdf plugin add lazygit`
 # See docs: https://github.com/nklmilojevic/asdf-lazygit
-lazygit 0.50.0
+lazygit 0.56.0
 
 # https://github.com/asdf-community/asdf-uv
 # uv 0.7.8
-
 # BEGIN ANSIBLE MANAGED BLOCK
 # See Ansible playbook https://github.com/gdso/dev-env-playbooks
 # Depends on plugin https://github.com/joke/asdf-chezmoi being installed:
 chezmoi 2.62.6
 # END ANSIBLE MANAGED BLOCK
+
+# NOTE awscli failed to install a working copy asf Jun 26 2025:
+# awscli 2.27.43
+
+# NOTE adding sd didn't work ...
+# asdf plugin add sd https://github.com/zimagen/asdf-sd.git
+# asdf install sd latest
+# sd latest

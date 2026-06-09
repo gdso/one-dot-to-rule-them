@@ -1,0 +1,358 @@
+return {
+	-- codecompanion coding assistant plugin
+	-- https://github.com/olimorris/codecompanion.nvim?tab=readme-ov-file
+	-- {
+	-- 	"olimorris/codecompanion.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"ravitemer/codecompanion-history.nvim",
+	-- 		"j-hui/fidget.nvim",
+	-- 	},
+	-- 	opts = {
+	--
+	-- 		strategies = {
+	-- 			chat = {
+	-- 				adapter = "gemini",
+	-- 				-- adapter = "gemini_cli",
+	-- 				keymaps = {
+	-- 					close = {
+	-- 						modes = {
+	-- 							n = "<space>cd",
+	-- 							i = "<nop>",
+	-- 						},
+	-- 					},
+	-- 					send = {
+	-- 						modes = {
+	-- 							n = "S",
+	-- 							-- By default, <Ctrl-s> will submit the message:
+	-- 							-- i = "<C-s>
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 		adapters = {
+	-- 			http = {
+	-- 				gemini = function()
+	-- 					return require("codecompanion.adapters").extend("gemini", {
+	-- 						schema = {
+	-- 							model = {
+	-- 								default = "gemini-2.5-flash",
+	-- 								-- default = "gemini-3-pro-preview",
+	-- 							},
+	-- 						},
+	-- 					})
+	-- 				end,
+	-- 			},
+	-- 			acp = {
+	-- 				--     claude_code = function()
+	-- 				-- 			return require("codecompanion.adapters").extend("gemini_cli", {
+	-- 				-- 				env = {
+	-- 				-- 					api_key = "AIzaSyDL5jZ8w-Jz53vtSztp0Ey4oNa0UNgAkfQ",
+	-- 				-- 				},
+	-- 				-- 			})
+	-- 				-- 		end,
+	-- 				-- gemini_cli = function()
+	-- 				-- 	return require("codecompanion.adapters").extend("gemini_cli", {
+	-- 				-- 		defaults = {
+	-- 				-- 			auth_method = "gemini-api-key", -- "oauth-personal"|"gemini-api-key"|"vertex-ai"
+	-- 				-- 		},
+	-- 				-- 		env = {
+	-- 				-- 			GEMINI_API_KEY = "GEMINI_API_KEY",
+	-- 				-- 			-- GEMINI_API_KEY = "AIzaSyDL5jZ8w-Jz53vtSztp0Ey4oNa0UNgAkfQ",
+	-- 				-- 		},
+	-- 				-- 	})
+	-- 				-- end,
+	-- 			},
+	-- 		},
+	-- 		extensions = {
+	-- 			history = {
+	-- 				enabled = true,
+	-- 				opts = {
+	-- 					-- Keymap to open history from chat buffer (default: gh)
+	-- 					keymap = "gh",
+	-- 					-- Keymap to save the current chat manually (when auto_save is disabled)
+	-- 					save_chat_keymap = "sc",
+	-- 					-- Save all chats by default (disable to save only manually using 'sc')
+	-- 					auto_save = true,
+	-- 					-- Number of days after which chats are automatically deleted (0 to disable)
+	-- 					expiration_days = 0,
+	-- 					-- Picker interface (auto resolved to a valid picker)
+	-- 					picker = "fzf-lua", --- ("telescope", "snacks", "fzf-lua", or "default")
+	-- 					---Optional filter function to control which chats are shown when browsing
+	-- 					chat_filter = nil, -- function(chat_data) return boolean end
+	-- 					-- Customize picker keymaps (optional)
+	-- 					picker_keymaps = {
+	-- 						-- rename = { n = "r", i = "<M-r>" },
+	-- 						rename = { n = "<C-r>", i = "<C-r>" },
+	-- 						-- delete = { n = "d", i = "<M-d>" },
+	-- 						delete = { n = "<C-x>", i = "<C-x>" }, -- to align with fzf.lua's default
+	-- 						duplicate = { n = "<C-y>", i = "<C-y>" },
+	-- 					},
+	-- 					---Automatically generate titles for new chats
+	-- 					auto_generate_title = true,
+	-- 					title_generation_opts = {
+	-- 						---Adapter for generating titles (defaults to current chat adapter)
+	-- 						adapter = "gemini", -- "copilot"
+	-- 						---Model for generating titles (defaults to current chat model)
+	-- 						model = "gemini-2.5-flash", -- "gpt-4o"
+	-- 						---Number of user prompts after which to refresh the title (0 to disable)
+	-- 						refresh_every_n_prompts = 0, -- e.g., 3 to refresh after every 3rd user prompt
+	-- 						---Maximum number of times to refresh the title (default: 3)
+	-- 						max_refreshes = 3,
+	-- 						format_title = function(original_title)
+	-- 							-- this can be a custom function that applies some custom
+	-- 							-- formatting to the title.
+	-- 							return original_title
+	-- 						end,
+	-- 					},
+	-- 					---On exiting and entering neovim, loads the last chat on opening chat
+	-- 					continue_last_chat = false,
+	-- 					---When chat is cleared with `gx` delete the chat from history
+	-- 					delete_on_clearing_chat = false,
+	-- 					---Directory path to save the chats
+	-- 					dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
+	-- 					---Enable detailed logging for history extension
+	-- 					enable_logging = false,
+	--
+	-- 					-- Summary system
+	-- 					summary = {
+	-- 						-- Keymap to generate summary for current chat (default: "gcs")
+	-- 						create_summary_keymap = "gcs",
+	-- 						-- Keymap to browse summaries (default: "gbs")
+	-- 						browse_summaries_keymap = "gbs",
+	--
+	-- 						generation_opts = {
+	-- 							-- adapter = nil, -- defaults to current chat adapter
+	-- 							adapter = "gemini", -- defaults to current chat adapter
+	-- 							model = "gemini-2.5-flash", -- defaults to current chat model
+	-- 							context_size = 90000, -- max tokens that the model supports
+	-- 							include_references = true, -- include slash command content
+	-- 							include_tool_outputs = true, -- include tool execution results
+	-- 							system_prompt = nil, -- custom system prompt (string or function)
+	-- 							format_summary = nil, -- custom function to format generated summary e.g to remove <think/> tags from summary
+	-- 						},
+	-- 					},
+	--
+	-- 					-- Memory system (requires VectorCode CLI)
+	-- 					-- memory = {
+	-- 					-- 	-- Automatically index summaries when they are generated
+	-- 					-- 	auto_create_memories_on_summary_generation = true,
+	-- 					-- 	-- Path to the VectorCode executable
+	-- 					-- 	vectorcode_exe = "vectorcode",
+	-- 					-- 	-- Tool configuration
+	-- 					-- 	tool_opts = {
+	-- 					-- 		-- Default number of memories to retrieve
+	-- 					-- 		default_num = 10,
+	-- 					-- 	},
+	-- 					-- 	-- Enable notifications for indexing progress
+	-- 					-- 	notify = true,
+	-- 					-- 	-- Index all existing memories on startup
+	-- 					-- 	-- (requires VectorCode 0.6.12+ for efficient incremental indexing)
+	-- 					-- 	index_on_startup = false,
+	-- 					-- },
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	},
+	-- 	keys = {
+	-- 		{ "<space>cn", "<cmd>CodeCompanionChat<cr>", desc = "Chat w/ CodeCompanion", mode = { "n" } },
+	-- 		{
+	-- 			"<leader>ct",
+	-- 			"<cmd>CodeCompanionChat Toggle<cr>",
+	-- 			desc = "Toggle chat w/ CodeCompanion",
+	-- 			mode = { "n" },
+	-- 		},
+	-- 		{ "<space>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle chat w/ CodeCompanion", mode = { "n" } },
+	-- 		{ "<space>ca", "<cmd>CodeCompanionChat Add<cr>", desc = ":CodeCompanionChat Add", mode = { "n", "v" } },
+	-- 		-- { "<space>ca", "<cmd>CodeCompanionActions<cr>", desc = ":CodeCompanionActions", mode = { "n" } },
+	-- 	},
+	-- 	init = function()
+	-- 		require("plugins.llms.code-companion-fidget-spinner"):init()
+	-- 	end,
+	-- },
+	-- {
+	-- 	"j-hui/fidget.nvim",
+	-- 	version = "*", -- alternatively, pin this to a specific version, e.g., "1.6.1"
+	-- 	opts = {
+	-- 		-- options
+	-- 	},
+	-- },
+	-- Use img-clip.nvim to copy images from your system clipboard into a
+	-- codecompanion chat buffer via :PasteImage:
+	{
+		"HakonHarnes/img-clip.nvim",
+		opts = {
+			filetypes = {
+				codecompanion = {
+					prompt_for_file_name = false,
+					template = "[Image]($FILE_PATH)",
+					use_absolute_path = true,
+				},
+			},
+		},
+	},
+	-- Amp Plugin
+	-- 	{
+	-- 		"sourcegraph/amp.nvim",
+	-- 		branch = "main",
+	-- 		lazy = false,
+	-- 		opts = { auto_start = true, log_level = "info" },
+	-- 		-- config = function()
+	-- 		-- 	-- vim.api.nvim_create_user_command
+	-- 		-- 	-- Add file+selection reference to prompt
+	-- 		-- 	vim.api.nvim_create_user_command("AmpPromptRef", function(opts)
+	-- 		-- 		local bufname = vim.api.nvim_buf_get_name(0)
+	-- 		-- 		if bufname == "" then
+	-- 		-- 			print("Current buffer has no filename")
+	-- 		-- 			return
+	-- 		-- 		end
+	-- 		--
+	-- 		-- 		local relative_path = vim.fn.fnamemodify(bufname, ":.")
+	-- 		-- 		local ref = "@" .. relative_path
+	-- 		-- 		if opts.line1 ~= opts.line2 then
+	-- 		-- 			ref = ref .. "#L" .. opts.line1 .. "-" .. opts.line2
+	-- 		-- 		elseif opts.line1 > 1 then
+	-- 		-- 			ref = ref .. "#L" .. opts.line1
+	-- 		-- 		end
+	-- 		--
+	-- 		-- 		local amp_message = require("amp.message")
+	-- 		-- 		amp_message.send_to_prompt(ref)
+	-- 		-- 	end, {
+	-- 		-- 		range = true,
+	-- 		-- 		desc = "Add file reference (with selection) to Amp prompt",
+	-- 		-- 	})
+	-- 		-- end,
+	-- 	},
+	-- {
+	-- 	-- I think I had the most success with this Claude Code plugin:
+	-- 	"coder/claudecode.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = { "folke/snacks.nvim" },
+	-- 	config = true,
+	-- 	keys = {
+	-- 		-- <gdso_keys>
+	-- 		-- { "<space>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code", mode = { "n", "t" } },
+	-- 		-- { "<space>ca", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+	-- 		-- { "<space>ct", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+	-- 		-- </gdso_keys>
+	--
+	-- 		-- <default_key_maps>
+	-- 		-- { "<space>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code", mode = { "n", "t" } },
+	-- 		-- { "<space>ca", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+	-- 		-- { "<space>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+	-- 		--
+	-- 		-- { "<leader>a", nil, desc = "AI/Claude Code" },
+	-- 		--
+	-- 		-- { "<space>cf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude Code", mode = { "n", "t" } },
+	-- 		--
+	-- 		-- { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+	-- 		-- { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+	-- 		-- { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+	-- 		-- { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+	-- 		-- {
+	-- 		-- 	"<leader>as",
+	-- 		-- 	"<cmd>ClaudeCodeTreeAdd<cr>",
+	-- 		-- 	desc = "Add file",
+	-- 		-- 	ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+	-- 		-- },
+	-- 		-- -- Diff management
+	-- 		-- </default_key_maps>
+	-- 	},
+	-- },
+	-- 	-- {
+	-- 	-- 	"greggh/claude-code.nvim",
+	-- 	-- 	dependencies = {
+	-- 	-- 		"nvim-lua/plenary.nvim", -- Required for git operations
+	-- 	-- 	},
+	-- 	-- 	opts = {
+	-- 	-- 		window = {
+	-- 	-- 			split_ratio = 0.3, -- Percentage of screen for the terminal window (height for horizontal, width for vertical splits)
+	-- 	-- 			position = "vertical", -- Position of the window: "botright", "topleft", "vertical", "float", etc.
+	-- 	-- 			enter_insert = true, -- Whether to enter insert mode when opening Claude Code
+	-- 	-- 			hide_numbers = true, -- Hide line numbers in the terminal window
+	-- 	-- 			hide_signcolumn = true, -- Hide the sign column in the terminal window
+	-- 	--
+	-- 	-- 			-- Floating window configuration (only applies when position = "float")
+	-- 	-- 			float = {
+	-- 	-- 				width = "80%", -- Width: number of columns or percentage string
+	-- 	-- 				height = "80%", -- Height: number of rows or percentage string
+	-- 	-- 				row = "center", -- Row position: number, "center", or percentage string
+	-- 	-- 				col = "center", -- Column position: number, "center", or percentage string
+	-- 	-- 				relative = "editor", -- Relative to: "editor" or "cursor"
+	-- 	-- 				border = "rounded", -- Border style: "none", "single", "double", "rounded", "solid", "shadow"
+	-- 	-- 			},
+	-- 	-- 		},
+	-- 	-- 	},
+	-- 	-- 	-- config = function()
+	-- 	-- 	-- 	require("claude-code").setup({})
+	-- 	-- 	-- end,
+	-- 	-- },
+	-- {
+	-- 	-- NOTE I'm not finding this plugin very useful now that I have
+	-- 	-- introduced quick ways to copy file paths using YankFileRef and YankFileRefLineNum
+	-- 	"NickvanDyke/opencode.nvim",
+	-- 	dependencies = {
+	-- 		-- Recommended for `ask()` and `select()`.
+	-- 		-- Required for `snacks` provider.
+	-- 		---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
+	-- 		{ "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+	-- 	},
+	-- 	config = function()
+	-- 		---@type opencode.Opts
+	-- 		vim.g.opencode_opts = {
+	-- 			-- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition".
+	-- 		}
+	--
+	-- 		-- Required for `opts.events.reload`.
+	-- 		vim.o.autoread = true
+	--
+	-- 		-- Recommended/example keymaps.
+	-- 		-- vim.keymap.set({ "n", "x" }, "<C-a>", function()
+	-- 		-- 	require("opencode").ask("@this: ", { submit = true })
+	-- 		-- end, { desc = "Ask opencode" })
+	-- 		vim.keymap.set({ "n", "x" }, "<space>at", function()
+	-- 			require("opencode").ask("@this: ", { submit = true })
+	-- 		end, { desc = "Ask opencode" })
+	--
+	-- 		-- vim.keymap.set({ "n", "x" }, "<C-x>", function()
+	-- 		-- 	require("opencode").select()
+	-- 		vim.keymap.set({ "n", "x" }, "<space>ax", function()
+	-- 			require("opencode").select()
+	-- 		end, { desc = "Execute opencode action…" })
+	--
+	-- 		-- vim.keymap.set({ "n", "t" }, "<C-.>", function()
+	-- 		-- 	require("opencode").toggle()
+	-- 		-- end, { desc = "Toggle opencode" })
+	-- 		vim.keymap.set({ "n", "t" }, "<space>aa", function()
+	-- 			require("opencode").toggle()
+	-- 		end, { desc = "Toggle opencode" })
+	--
+	-- 		-- vim.keymap.set({ "n", "x" }, "go", function()
+	-- 		-- 	return require("opencode").operator("@this ")
+	-- 		-- end, { expr = true, desc = "Add range to opencode" })
+	-- 		vim.keymap.set({ "n", "x", "v" }, "<space>as", function()
+	-- 			return require("opencode").operator("@this ")
+	-- 		end, { expr = true, desc = "Send range to opencode" })
+	--
+	-- 		-- vim.keymap.set("n", "goo", function()
+	-- 		-- 	return require("opencode").operator("@this ") .. "_"
+	-- 		-- end, { expr = true, desc = "Add line to opencode" })
+	-- 		vim.keymap.set("n", "<space>al", function()
+	-- 			return require("opencode").operator("@this ") .. "_"
+	-- 		end, { expr = true, desc = "Add line to opencode" })
+	--
+	-- 		-- vim.keymap.set("n", "<S-C-u>", function()
+	-- 		-- 	require("opencode").command("session.half.page.up")
+	-- 		-- end, { desc = "opencode half page up" })
+	-- 		-- vim.keymap.set("n", "<S-C-d>", function()
+	-- 		-- 	require("opencode").command("session.half.page.down")
+	-- 		-- end, { desc = "opencode half page down" })
+	--
+	-- 		-- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
+	-- 		vim.keymap.set("n", "+", "<C-a>", { desc = "Increment", noremap = true })
+	-- 		vim.keymap.set("n", "-", "<C-x>", { desc = "Decrement", noremap = true })
+	-- 	end,
+	-- },
+}

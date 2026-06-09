@@ -16,18 +16,18 @@ PATH="$HOME/.asdf/shims:$PATH"
 PATH="/Users/gdso/src/nvim_lazy_migration/bin/:$PATH"
 export PATH="$UV_BIN:$PATH"
 
-# For git autocomplete support, as suggested here: 
+# For git autocomplete support, as suggested here:
 # https://stackoverflow.com/questions/73393101/how-to-enable-git-autocomplete-in-macos
 autoload -Uz compinit && compinit
 
-export EDITOR=nvim
+export EDITOR=nvim_lazy
 export VISUAL="$EDITOR"
 
-# Added this alias for my macOS installation of Tailscale, makes the CLI 
+# Added this alias for my macOS installation of Tailscale, makes the CLI
 # easily available as I've installed it via the macOS App Store:
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
-# The alias didn't work, FYI, had to introduce ~/src/scripts/bin/nvim_lazy 
+# The alias didn't work, FYI, had to introduce ~/src/scripts/bin/nvim_lazy
 # alias nvim_lazy ='NVIM_APPNAME="lazy_nvim_migration" nvim'
 
 # <fzf_setup>
@@ -40,3 +40,10 @@ source <(fzf --zsh)
 # eval "$(fzf --bash)"
 
 # </fzf_setup>
+
+# Added by Antigravity
+export PATH="/Users/gdso/.antigravity/antigravity/bin:$PATH"
+
+# direnv hook - see <https://direnv.net/docs/hook.html>
+eval "$(direnv hook zsh)"
+

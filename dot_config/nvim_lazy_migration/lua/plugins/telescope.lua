@@ -1,0 +1,134 @@
+return {}
+
+-- local builtin = require("telescope.builtin")
+-- local actions = require("telescope.actions")
+
+-- return {
+-- 	{
+-- 		"nvim-telescope/telescope.nvim",
+-- 		-- lazy = false,
+-- 		tag = "0.1.8",
+-- 		-- or                              , branch = '0.1.x',
+-- 		dependencies = { "nvim-lua/plenary.nvim" },
+-- 		opts = {
+-- 			defaults = {
+-- 				sorting_strategy = "ascending",
+-- 				layout_config = {
+-- 					horizontal = {
+-- 						prompt_position = "top",
+-- 					},
+-- 				},
+-- 				dynamic_preview_title = true,
+-- 				-- mappings = {
+-- 				-- 	n = {
+-- 				-- 		["q"] = actions.send_to_qflist + actions.open_qflist,
+-- 				-- 		["Q"] = actions.send_selected_to_qflist + actions.open_qflist,
+-- 				-- 	},
+-- 				-- },
+-- 			},
+-- 			pickers = {
+-- 				buffers = {
+-- 					mappings = {
+-- 						n = {
+-- 							-- ["D"] = actions.delete_buffer + actions.move_to_top,
+-- 						},
+-- 						-- NOTE disabling <c-d> because <Ctrl-d> is used to scroll the preview
+-- 						-- i = {
+-- 						--   ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+-- 						-- }
+-- 					},
+-- 				},
+-- 				find_files = {
+-- 					hidden = true,
+-- 				},
+-- 				lsp_references = {
+-- 					path_display = {
+-- 						shorten = {
+-- 							length = 1,
+-- 							exclude = { -1, -2 },
+-- 						},
+-- 					},
+-- 				},
+-- 				colorscheme = {
+-- 					enable_preview = true,
+-- 				},
+-- 			},
+-- 			extensions = {
+-- 				file_browser = {
+-- 					-- dir_icon = "📁",
+-- 					depth = 1,
+-- 					-- hijack_netrw = true,
+-- 					auto_depth = true,
+-- 				},
+-- 			},
+-- 		},
+-- 		-- config = function(opts)
+-- 		--   local telescope = require("telescope")
+-- 		--   telescope.setup(opts)
+-- 		-- end,
+-- 		keys = {
+-- 			-- vim.keymap.set('n', '<space>f', builtin.find_files, {})
+-- 			-- { '<space>ff', builtin.find_files,     mode = "n" },
+-- 			-- { '<space>fb', builtin.buffers,        mode = "n" },
+-- 			-- { '<space>fh', builtin.help_tags,      mode = "n" },
+-- 			-- { '<space>fr', builtin.lsp_references, mode = "n" },
+-- 			-- { '<space>fo', builtin.oldfiles,       mode = "n" },
+-- 			-- { '<space>fm', builtin.marks,          mode = "n" },
+-- 			-- { '<space>gg', builtin.live_grep,      mode = "n" },
+-- 			-- { '<space>gw', builtin.grep_string,    mode = "n" },
+-- 			-- -- { "<space>gy", ":Telescope grep_string search=<c-r>0<cr>", mode = "n" },
+-- 			-- {
+-- 			--   "<space>gy",
+-- 			--   function()
+-- 			--     builtin.grep_string({
+-- 			--       search = vim.fn.getreg("0")
+-- 			--     })
+-- 			--   end,
+-- 			--   mode = "n"
+-- 			-- },
+-- 			-- {
+-- 			--   '<space>ga',
+-- 			--   function()
+-- 			--     builtin.live_grep({ additional_args = { "--hidden" } })
+-- 			--   end,
+-- 			--   mode = "n"
+-- 			-- },
+-- 			-- {
+-- 			--   '<space>gb',
+-- 			--   function()
+-- 			--     builtin.live_grep({ grep_open_files = true })
+-- 			--   end,
+-- 			--   mode = "n"
+-- 			-- },
+-- 			-- {
+-- 			--   '<space>fl', builtin.current_buffer_fuzzy_find, mode = "n"
+-- 			-- },
+-- 			-- { '<space>gd', builtin.lsp_definitions,  mode = "n" },
+-- 			-- { '<space>gt', builtin.lsp_type_definitions,  mode = "n" },
+-- 			-- vim.keymap.set('n', '<space>b', builtin.buffers, {})
+-- 		},
+-- 	},
+-- 	{
+-- 		"nvim-telescope/telescope-file-browser.nvim",
+-- 		lazy = false,
+-- 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+-- 		config = function(opts)
+-- 			local telescope = require("telescope")
+-- 			telescope.load_extension("file_browser")
+-- 		end,
+-- 		keys = {
+-- 			-- {
+-- 			--   "<space>bf",
+-- 			--   ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+-- 			--   mode = "n",
+-- 			--   desc = "Open Telescope file browser at buffer's path"
+-- 			-- }
+-- 		},
+-- 	},
+-- 	{
+-- 		"LukasPietzschmann/telescope-tabs",
+-- 		keys = {
+-- 			-- { '<space>ft', ":Telescope telescope-tabs list_tabs <cr>", mode = "n" },
+-- 		},
+-- 	},
+-- }
